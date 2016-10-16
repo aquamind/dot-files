@@ -18,15 +18,34 @@ endif
   " Add or remove your plugins here:
   call dein#add('Shougo/neosnippet.vim')
   call dein#add('Shougo/neosnippet-snippets')
+" Plugin key-mappings.
+ imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+ smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+ xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+ " SuperTab like snippets behavior.
+ "imap <expr><TAB>
+ " \ pumvisible() ? "\<C-n>" :
+ " \ neosnippet#expandable_or_jumpable() ?
+ " \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+ \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+ " For conceal markers.
+ if has('conceal')
+   set conceallevel=2 concealcursor=niv
+ endif
+  
   call dein#add('tomasr/molokai')
   call dein#add('Shougo/neocomplete.vim')
+let g:neocomplcache_enable_at_startup = 1
   call dein#add('Shougo/unite.vim')
-  call dein#add('tpope/vim-pathogen')
-    execute pathogen#infect()
   call dein#add('scrooloose/nerdtree')
     nnoremap <silent><C-\> :NERDTreeToggle<CR>
+"    let g:NERDTreeDirArrows = 1
+"    let g:NERDTreeDirArrowExpandable = '▸'
+"    let g:NERDTreeDirArrowCollapsible = '▾'
   call dein#add('scrooloose/syntastic')
-    execute pathogen#infect()
   call dein#add('othree/html5.vim')
   call dein#add('hail2u/vim-css3-syntax')
   call dein#add('jelera/vim-javascript-syntax')
