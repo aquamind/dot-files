@@ -1,4 +1,49 @@
-syntax on
+"dein Scripts-----------------------------
+if &compatible
+
+
+  set nocompatible               " Be iMproved
+endif
+
+  " Required:
+  set  runtimepath+=/Users/itouken/.cache/dein/repos/github.com/Shougo/dein.vim
+
+  " Required:
+  call dein#begin('/Users/itouken/.cache/dein')
+
+  " Let dein manage dein
+  " Required:
+  call dein#add('Shougo/dein.vim')
+
+  " Add or remove your plugins here:
+  call dein#add('Shougo/neosnippet.vim')
+  call dein#add('Shougo/neosnippet-snippets')
+  call dein#add('tomasr/molokai')
+  call dein#add('Shougo/neocomplete.vim')
+  call dein#add('Shougo/unite.vim')
+  call dein#add('scrooloose/nerdtree')
+    nnoremap <silent><C-\> :NERDTreeToggle<CR>
+
+  " You can specify revision/branch/tag.
+  call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
+
+
+
+
+
+  " Required:
+  call dein#end()
+
+  " Required:
+  filetype plugin indent on
+  syntax enable
+
+  " If you want to install not installed plugins on startup.
+  if dein#check_install()
+    call dein#install()
+  endif
+
+  "End dein Scripts-------------------------
 
 "バックアップファイルを作成しない
 set nobackup
@@ -18,6 +63,9 @@ set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
 
 "ビープ音を可視化
 set visualbell
+
+"deleteキーを有効化
+set backspace=indent,eol,start
 
 
 "閉じ括弧が入力されたとき対応する括弧を表示
