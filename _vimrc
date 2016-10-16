@@ -21,10 +21,26 @@ endif
   call dein#add('tomasr/molokai')
   call dein#add('Shougo/neocomplete.vim')
   call dein#add('Shougo/unite.vim')
+  call dein#add('tpope/vim-pathogen')
+    execute pathogen#infect()
   call dein#add('scrooloose/nerdtree')
     nnoremap <silent><C-\> :NERDTreeToggle<CR>
+  call dein#add('scrooloose/syntastic')
+    execute pathogen#infect()
+  call dein#add('othree/html5.vim')
+  call dein#add('hail2u/vim-css3-syntax')
+  call dein#add('jelera/vim-javascript-syntax')
+  call dein#add('mattn/jscomplete-vim')
+    autocmd FileType javascript
+      \ :setl omnifunc=jscomplete#CompleteJS
+  call dein#add('mattn/emmet-vim')
+  call dein#add('open-browser.vim')
+  call dein#add('mattn/webapi-vim')
+  call dein#add('tell-k/vim-browsereload-mac')
+  call dein#add('kchmck/vim-coffee-script')
 
-  " You can specify revision/branch/tag.
+    
+    " You can specify revision/branch/tag.
   call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
 
 
