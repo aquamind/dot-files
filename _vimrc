@@ -1,12 +1,22 @@
 "dein Scripts-----------------------------
 if &compatible
-
-
   set nocompatible               " Be iMproved
 endif
 
-  " Required:
-  set  runtimepath+=/Users/itouken/.cache/dein/repos/github.com/Shougo/dein.vim
+"reset augroup
+augroup MyAutoCmd
+  autocmd!
+augroup END
+
+let s:cache_home = empty($XDG_CACHE_HOME) ? expand('$HOME/.cache') : $XDG_CACHE_HOME
+let s:dein_dir = s:cache_home . '/dein'
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+if !isdirectory(s:dein_repo_dir)
+  call system('git clone https://github.com/Shougo/dein.vim ' .sellescape(s:dein_repo_dir))
+endif
+
+" Required:
+execute  'set  runtimepath^=' . s:dein_repo_dir
 
   " Required:
   call dein#begin('/Users/itouken/.cache/dein')
