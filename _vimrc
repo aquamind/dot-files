@@ -67,13 +67,17 @@ let g:neocomplcache_enable_at_startup = 1
   call dein#add('mattn/webapi-vim')
   call dein#add('tell-k/vim-browsereload-mac')
   call dein#add('kchmck/vim-coffee-script')
+  call dein#add('tyru/caw.vim')
+    nmap <C-c> <Plug>(caw:i:toggle)
+    vmap <C-c> <Plug>(caw:i:toggle)
 
-    
+"カラースキーム
+  call dein#add('w0ng/vim-hybrid')
+  call dein#add('altercation/vim-colors-solarized')
+
+
     " You can specify revision/branch/tag.
   call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
-
-
-
 
 
   " Required:

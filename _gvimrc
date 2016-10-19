@@ -1,15 +1,14 @@
 "set background=dark
 set background=light
-
-"colorscheme solarized
+"
+colorscheme solarized
 "colorscheme jellybeans
-"colorscheme railscasts
+""colorscheme railscasts
 "colorscheme pyte
-"colorscheme Tomorrow-Night
-colorscheme Tomorrow
+""colorscheme Tomorrow-Night
+"colorscheme Tomorrow
 "colorscheme hybrid
-
-
-set guifont=Ricty:h16
-
-
+"colorscheme molokai
+"
+"
+set guifont=Ricty:h20
