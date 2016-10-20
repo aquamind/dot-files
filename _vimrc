@@ -68,9 +68,10 @@ let g:neocomplcache_enable_at_startup = 1
   call dein#add('tell-k/vim-browsereload-mac')
   call dein#add('kchmck/vim-coffee-script')
   call dein#add('kana/vim-smartchr')
+  call dein#add('itchyny/lightline.vim')
   call dein#add('tyru/caw.vim')
-    nmap <C-c> <Plug>(caw:i:toggle)
-    vmap <C-c> <Plug>(caw:i:toggle)
+    nmap <C-k> <Plug>(caw:i:toggle)
+    vmap <C-k> <Plug>(caw:i:toggle)
 
 "カラースキーム
   call dein#add('w0ng/vim-hybrid')
@@ -94,6 +95,10 @@ let g:neocomplcache_enable_at_startup = 1
   endif
 
   "End dein Scripts-------------------------
+
+set laststatus=2
+set t_Co=256
+
 
 "バックアップファイルを作成しない
 set nobackup
