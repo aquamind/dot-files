@@ -46,36 +46,75 @@ execute  'set  runtimepath^=' . s:dein_repo_dir
    set conceallevel=2 concealcursor=niv
  endif
   
-  call dein#add('tomasr/molokai')
   call dein#add('Shougo/neocomplete.vim')
-let g:neocomplcache_enable_at_startup = 1
+    let g:neocomplcache_enable_at_startup = 1
+  call dein#add('Shougo/neocomplcache-rsense.vim')
   call dein#add('Shougo/unite.vim')
+    nnoremap ub :Unite file buffer<CR>
   call dein#add('scrooloose/nerdtree')
     nnoremap <silent><C-\> :NERDTreeToggle<CR>
-"    let g:NERDTreeDirArrows = 1
-"    let g:NERDTreeDirArrowExpandable = '▸'
-"    let g:NERDTreeDirArrowCollapsible = '▾'
+    let g:NERDTreeDirArrows = 1
+    let g:NERDTreeDirArrowExpandable = '▸'
+    let g:NERDTreeDirArrowCollapsible = '▾'
+  "構文チェック
   call dein#add('scrooloose/syntastic')
+    let g:syntastic_mode_map  =  { 'mode': 'passive',
+                \ 'active_filetypes': ['ruby'] }
+    let g:syntastic_ruby_checkers  =  ['rubocop']
+  " カスタムステータスライン
+  call dein#add('itchyny/lightline.vim')
+  " シンタックス
   call dein#add('othree/html5.vim')
   call dein#add('hail2u/vim-css3-syntax')
   call dein#add('jelera/vim-javascript-syntax')
+  " JSプロパティ補完
   call dein#add('mattn/jscomplete-vim')
     autocmd FileType javascript
       \ :setl omnifunc=jscomplete#CompleteJS
+  " HTML CSS 入力を簡略化
   call dein#add('mattn/emmet-vim')
+  " URLからブラウザを開く
   call dein#add('open-browser.vim')
+  " WEB API
   call dein#add('mattn/webapi-vim')
+  " ブラウザ自動リロード Macのみ
   call dein#add('tell-k/vim-browsereload-mac')
-  call dein#add('kchmck/vim-coffee-script')
+  " =にスペースを追加
   call dein#add('kana/vim-smartchr')
-  call dein#add('itchyny/lightline.vim')
+    inoremap <expr> = smartchr#loop(' = ', ' == ', ' === ', '=')
+ " HTML閉じタグ移動
   call dein#add('tmhedberg/matchit')
+  " 閉じ括弧入力
   call dein#add('kana/vim-smartinput')
+  " コメントアウト
   call dein#add('tyru/caw.vim')
     nmap <C-k> <Plug>(caw:i:toggle)
     vmap <C-k> <Plug>(caw:i:toggle)
 
+  "範囲拡大
+  call dein#add('terryma/vim-expand-region')
+    vmap v <Plug>(expand_region_expand)
+    vmap <C-v> <Plug>(expand_region_shrink)
+  " Railsコマンド
+  call dein#add('tpope/vim-rails')
+    autocmd User Rails.view*                 NeoSnippetSource ~/.vim/snippet/ruby.rails.view.snip
+    autocmd User Rails.controller*           NeoSnippetSource ~/.vim/snippet/ruby.rails.controller.snip
+    autocmd User Rails/db/migrate/*          NeoSnippetSource ~/.vim/snippet/ruby.rails.migrate.snip
+    autocmd User Rails/config/routes.rb      NeoSnippetSource ~/.vim/snippet/ruby.rails.route.snip 
+  " Unite Rails プラグイン
+  call dein#add('basyura/unite-rails')
+ " Ruby向けend入力
+  call dein#add('tpope/vim-endwise')
+   " キーワード切り替え
+  call dein#add('AndrewRadev/switch.vim')
+
+
+  " テキストオブジェクト拡張
+  call dein#add('tpope/vim-surround')
+
+
 "カラースキーム
+  call dein#add('tomasr/molokai')
   call dein#add('w0ng/vim-hybrid')
   call dein#add('altercation/vim-colors-solarized')
 
@@ -169,6 +208,125 @@ endif
 " https://github.com/c9s/perlomni.vim
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
+"rsense""""""""""""""""""
+let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+"autocmd FileType ruby setlocal omnifunc = rubycomplete#Complete
+
+"let g:rsenseUseOmniFnc = 1
+"let g:rsenseHome = $HOME. '/.rbenv/shims'
+
+"switch.vim""""""""""""""
+  nnoremap ! :Switch<CR>
+    let s:switch_definition  =  {
+      \ '*': [
+      \   ['is', 'are']
+      \ ],
+      \ 'ruby,eruby,haml' : [
+      \   ['if', 'unless'],
+      \   ['while', 'until'],
+      \   ['.blank?', '.present?'],
+      \   ['include', 'extend'],
+      \   ['class', 'module'],
+      \   ['.inject', '.delete_if'],
+      \   ['.map', '.map!'],
+      \   ['attr_accessor', 'attr_reader', 'attr_writer'],
+      \ ],
+      \ 'Gemfile,Berksfile' : [
+      \   [' = ', '<', '< = ', '>', '> = ', '~>'],
+      \ ],
+      \ 'ruby.application_template' : [
+      \   ['yes?', 'no?'],
+      \   ['lib', 'initializer', 'file', 'vendor', 'rakefile'],
+      \   ['controller', 'model', 'view', 'migration', 'scaffold'],
+      \ ],
+      \ 'erb,html,php' : [
+      \   { '<!--\([a-zA-Z0-9 /]\+\)--></\(div\|ul\|li\|a\)>' : '</\2><!--\1-->' },
+      \ ],
+      \ 'rails' : [
+      \   [100, ':continue', ':information'],
+      \   [101, ':switching_protocols'],
+      \   [102, ':processing'],
+      \   [200, ':ok', ':success'],
+      \   [201, ':created'],
+      \   [202, ':accepted'],
+      \   [203, ':non_authoritative_information'],
+      \   [204, ':no_content'],
+      \   [205, ':reset_content'],
+      \   [206, ':partial_content'],
+      \   [207, ':multi_status'],
+      \   [208, ':already_reported'],
+      \   [226, ':im_used'],
+      \   [300, ':multiple_choices'],
+      \   [301, ':moved_permanently'],
+      \   [302, ':found'],
+      \   [303, ':see_other'],
+      \   [304, ':not_modified'],
+      \   [305, ':use_proxy'],
+      \   [306, ':reserved'],
+      \   [307, ':temporary_redirect'],
+      \   [308, ':permanent_redirect'],
+      \   [400, ':bad_request'],
+      \   [401, ':unauthorized'],
+      \   [402, ':payment_required'],
+      \   [403, ':forbidden'],
+      \   [404, ':not_found'],
+      \   [405, ':method_not_allowed'],
+      \   [406, ':not_acceptable'],
+      \   [407, ':proxy_authentication_required'],
+      \   [408, ':request_timeout'],
+      \   [409, ':conflict'],
+      \   [410, ':gone'],
+      \   [411, ':length_required'],
+      \   [412, ':precondition_failed'],
+      \   [413, ':request_entity_too_large'],
+      \   [414, ':request_uri_too_long'],
+      \   [415, ':unsupported_media_type'],
+      \   [416, ':requested_range_not_satisfiable'],
+      \   [417, ':expectation_failed'],
+      \   [422, ':unprocessable_entity'],
+      \   [423, ':precondition_required'],
+      \   [424, ':too_many_requests'],
+      \   [426, ':request_header_fields_too_large'],
+      \   [500, ':internal_server_error'],
+      \   [501, ':not_implemented'],
+      \   [502, ':bad_gateway'],
+      \   [503, ':service_unavailable'],
+      \   [504, ':gateway_timeout'],
+      \   [505, ':http_version_not_supported'],
+      \   [506, ':variant_also_negotiates'],
+      \   [507, ':insufficient_storage'],
+      \   [508, ':loop_detected'],
+      \   [510, ':not_extended'],
+      \   [511, ':network_authentication_required'],
+      \ ],
+      \ 'rspec': [
+      \   ['describe', 'context', 'specific', 'example'],
+      \   ['before', 'after'],
+      \   ['be_true', 'be_false'],
+      \   ['get', 'post', 'put', 'delete'],
+      \   [' = = ', 'eql', 'equal'],
+      \   { '\.should_not': '\.should' },
+      \   ['\.to_not', '\.to'],
+      \   { '\([^. ]\+\)\.should\(_not\|\)': 'expect(\1)\.to\2' },
+      \   { 'expect(\([^. ]\+\))\.to\(_not\|\)': '\1.should\2' },
+      \ ],
+      \ 'markdown' : [
+      \   ['[ ]', '[x]']
+      \ ]
+      \ }
+"""""""""""""""""""""""""""
+
+
+
+
+"let mapleader = "\<Space>" "Leaderをスペースキーにする
+"nnoremap <Leader>w :w<CR>
+nnoremap ww <C-w>w
+nnoremap sp :sp<CR>
+nnoremap sc <C-w>c
+nnoremap tn :tabnew<CR>
+
+
 
 
 set laststatus=2
@@ -215,17 +373,30 @@ set shiftwidth=2
 
 "クリップボード連携
 set clipboard+=unnamed
+"ペースト時の補正をなくす
+"set paste
 
 
-"検索ハイライトをESC2回で消す
-nnoremap <Esc><Esc> :noh<CR
 "検索をファイルの先頭へループしない
-set nowrapscan
+"set nowrapscan
+
 "検索時に大文字を含んでいたら大/小を区別
 set smartcase
 "インクリメンタルサーチを行う
 set incsearch
+"検索結果ハイライト
+set hlsearch
+"検索ハイライトをESC2回で消す
+nnoremap <Esc><Esc> :noh<CR>
 
 
 "カーソルを行頭、行末で止まらないようにする
 set whichwrap=b,s,h,l,<,>,[,]
+
+" 最後のカーソル位置を復元する
+if has("autocmd")
+    autocmd BufReadPost *
+    \ if line("'\"") > 0 && line ("'\"") <= line("$") |
+    \   exe "normal! g'\"" |
+    \ endif
+endif
