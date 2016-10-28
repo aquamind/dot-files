@@ -18,145 +18,168 @@ endif
 " Required:
 execute  'set  runtimepath^=' . s:dein_repo_dir
 
-  " Required:
-  call dein#begin(s:dein_dir)
+" Required:
+call dein#begin(s:dein_dir)
 
-  " Let dein manage dein
-  " Required:
-  call dein#add('Shougo/dein.vim')
+" Let dein manage dein
+" Required:
+call dein#add('Shougo/dein.vim')
 
-  " Add or remove your plugins here:
-  call dein#add('Shougo/neosnippet.vim')
-  call dein#add('Shougo/neosnippet-snippets')
+" Add or remove your plugins here:
+call dein#add('Shougo/neosnippet.vim')
+call dein#add('Shougo/neosnippet-snippets')
 " Plugin key-mappings.
- imap <C-k>     <Plug>(neosnippet_expand_or_jump)
- smap <C-k>     <Plug>(neosnippet_expand_or_jump)
- xmap <C-k>     <Plug>(neosnippet_expand_target)
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
 
- " SuperTab like snippets behavior.
- "imap <expr><TAB>
- " \ pumvisible() ? "\<C-n>" :
- " \ neosnippet#expandable_or_jumpable() ?
- " \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
- smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
- \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+" SuperTab like snippets behavior.
+"imap <expr><TAB>
+" \ pumvisible() ? "\<C-n>" :
+" \ neosnippet#expandable_or_jumpable() ?
+" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+      \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
- " For conceal markers.
- if has('conceal')
-   set conceallevel=2 concealcursor=niv
- endif
-  
-  call dein#add('Shougo/neocomplete.vim')
-    let g:neocomplcache_enable_at_startup = 1
-  call dein#add('Shougo/neocomplcache-rsense.vim')
-  call dein#add('Shougo/unite.vim')
-    nnoremap ub :Unite file buffer<CR>
-  call dein#add('scrooloose/nerdtree')
-    nnoremap <silent><C-\> :NERDTreeToggle<CR>
-    let g:NERDTreeDirArrows = 1
-    let g:NERDTreeDirArrowExpandable = '▸'
-    let g:NERDTreeDirArrowCollapsible = '▾'
-  "構文チェック
-  call dein#add('scrooloose/syntastic')
-    let g:syntastic_mode_map  =  { 'mode': 'passive',
-                \ 'active_filetypes': ['ruby'] }
-    let g:syntastic_ruby_checkers  =  ['rubocop']
-  " カスタムステータスライン
-  call dein#add('itchyny/lightline.vim')
-  " シンタックス
-  call dein#add('othree/html5.vim')
-  call dein#add('hail2u/vim-css3-syntax')
-  call dein#add('jelera/vim-javascript-syntax')
-  " JSプロパティ補完
-  call dein#add('mattn/jscomplete-vim')
-    autocmd FileType javascript
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
+
+"call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
+"call dein#add('Shougo/vimshell.vim')
+call dein#add('Shougo/neocomplete.vim')
+let g:neocomplcache_enable_at_startup = 1
+call dein#add('Shougo/neocomplcache-rsense.vim')
+call dein#add('Shougo/unite.vim')
+nnoremap ub :Unite file buffer<CR>
+call dein#add('scrooloose/nerdtree')
+nnoremap <silent><C-\> :NERDTreeToggle<CR>
+let g:NERDTreeDirArrows = 1
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+"構文チェック
+call dein#add('scrooloose/syntastic')
+let g:syntastic_mode_map  =  { 'mode': 'passive',
+      \ 'active_filetypes': ['ruby'] }
+let g:syntastic_ruby_checkers  =  ['rubocop']
+" カスタムステータスライン
+call dein#add('itchyny/lightline.vim')
+" シンタックス
+call dein#add('othree/html5.vim')
+call dein#add('hail2u/vim-css3-syntax')
+call dein#add('jelera/vim-javascript-syntax')
+" JSプロパティ補完
+call dein#add('mattn/jscomplete-vim')
+autocmd FileType javascript
       \ :setl omnifunc=jscomplete#CompleteJS
-  " HTML CSS 入力を簡略化
-  call dein#add('mattn/emmet-vim')
-  " URLからブラウザを開く
-  call dein#add('open-browser.vim')
-  " WEB API
-  call dein#add('mattn/webapi-vim')
-  " ブラウザ自動リロード Macのみ
-  call dein#add('tell-k/vim-browsereload-mac')
-  " =にスペースを追加
-  call dein#add('kana/vim-smartchr')
-    inoremap <expr> = smartchr#loop(' = ', ' == ', ' === ', '=')
- " HTML閉じタグ移動
-  call dein#add('tmhedberg/matchit')
-  " 閉じ括弧入力
-  call dein#add('kana/vim-smartinput')
-  " コメントアウト
-  call dein#add('tyru/caw.vim')
-    nmap <C-k> <Plug>(caw:i:toggle)
-    vmap <C-k> <Plug>(caw:i:toggle)
+" HTML CSS 入力を簡略化
+call dein#add('mattn/emmet-vim')
+" sass自動コンパイル
+call dein#add('AtsushiM/search-parent.vim')
+call dein#add('AtsushiM/sass-compile.vim')
+" URLからブラウザを開く
+call dein#add('open-browser.vim')
+" WEB API
+call dein#add('mattn/webapi-vim')
+" ブラウザ自動リロード Macのみ
+call dein#add('tell-k/vim-browsereload-mac')
+" =にスペースを追加
+call dein#add('kana/vim-smartchr')
+inoremap <expr> = smartchr#loop(' = ', ' == ', ' === ', '=')
+" HTML閉じタグ移動
+call dein#add('tmhedberg/matchit')
+" 閉じ括弧入力
+call dein#add('kana/vim-smartinput')
+" コメントアウト
+call dein#add('tyru/caw.vim')
+nmap <C-k> <Plug>(caw:hatpos:toggle)
+vmap <C-k> <Plug>(caw:hatpos:toggle)
 
-  "範囲拡大
-  call dein#add('terryma/vim-expand-region')
-    vmap v <Plug>(expand_region_expand)
-    vmap <C-v> <Plug>(expand_region_shrink)
-  " Railsコマンド
-  call dein#add('tpope/vim-rails')
-    autocmd User Rails.view*                 NeoSnippetSource ~/.vim/snippet/ruby.rails.view.snip
-    autocmd User Rails.controller*           NeoSnippetSource ~/.vim/snippet/ruby.rails.controller.snip
-    autocmd User Rails/db/migrate/*          NeoSnippetSource ~/.vim/snippet/ruby.rails.migrate.snip
-    autocmd User Rails/config/routes.rb      NeoSnippetSource ~/.vim/snippet/ruby.rails.route.snip 
-  " Unite Rails プラグイン
-  call dein#add('basyura/unite-rails')
- " Ruby向けend入力
-  call dein#add('tpope/vim-endwise')
-   " キーワード切り替え
-  call dein#add('AndrewRadev/switch.vim')
+"範囲拡大
+call dein#add('terryma/vim-expand-region')
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
+" Railsコマンド
+call dein#add('tpope/vim-rails')
+autocmd User Rails.view*                 NeoSnippetSource ~/.vim/snippet/ruby.rails.view.snip
+autocmd User Rails.controller*           NeoSnippetSource ~/.vim/snippet/ruby.rails.controller.snip
+autocmd User Rails/db/migrate/*          NeoSnippetSource ~/.vim/snippet/ruby.rails.migrate.snip
+autocmd User Rails/config/routes.rb      NeoSnippetSource ~/.vim/snippet/ruby.rails.route.snip 
+" Unite Rails プラグイン
+call dein#add('basyura/unite-rails')
+" Ruby向けend入力
+call dein#add('tpope/vim-endwise')
+" キーワード切り替え
+call dein#add('AndrewRadev/switch.vim')
 
 
-  " テキストオブジェクト拡張
-  call dein#add('tpope/vim-surround')
+" テキストオブジェクト拡張
+call dein#add('tpope/vim-surround')
 
 
 "カラースキーム
-  call dein#add('tomasr/molokai')
-  call dein#add('w0ng/vim-hybrid')
-  call dein#add('altercation/vim-colors-solarized')
+call dein#add('tomasr/molokai')
+call dein#add('w0ng/vim-hybrid')
+call dein#add('altercation/vim-colors-solarized')
+call dein#add('jpo/vim-railscasts-theme')
 
 
-    " You can specify revision/branch/tag.
-  call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
+" You can specify revision/branch/tag.
+call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
 
 
-  " Required:
-  call dein#end()
+" Required:
+call dein#end()
 
-  " Required:
-  filetype plugin indent on
-  syntax enable
+" Required:
+filetype plugin indent on
+syntax enable
 
-  " If you want to install not installed plugins on startup.
-  if dein#check_install()
-    call dein#install()
-  endif
+" If you want to install not installed plugins on startup.
+if dein#check_install()
+  call dein#install()
+endif
 
-  "End dein Scripts-------------------------
+"End dein Scripts-------------------------
+
 "Note: This option must be set in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
+
+" Vim起動時にneocompleteを有効にする
+let g:neocomplete#enable_at_startup = 1
+" smartcase有効化. 大文字が入力されるまで大文字小文字の区別を無視する
+let g:neocomplete#enable_smart_case = 1
+" 3文字以上の単語に対して補完を有効にする
+let g:neocomplete#min_keyword_length = 3
+" 区切り文字まで補完する
+let g:neocomplete#enable_auto_delimiter = 1
+" 1文字目の入力から補完のポップアップを表示
+let g:neocomplete#auto_completion_start_length = 1
+" バックスペースで補完のポップアップを閉じる
+inoremap <expr><BS> neocomplete#smart_close_popup()."<C-h>"
+
+" エンターキーで補完候補の確定. スニペットの展開もエンターキーで確定
+imap <expr><CR> neosnippet#expandable() ? "<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "<C-y>" : "<CR>"
+" タブキーで補完候補の選択. スニペット内のジャンプもタブキーでジャンプ
+imap <expr><TAB> pumvisible() ? "<C-n>" : neosnippet#jumpable() ? "<Plug>(neosnippet_expand_or_jump)" : "<TAB>"
+
+
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
 " Set minimum syntax keyword length.
 let g:neocomplete#sources#syntax#min_keyword_length = 3
 let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
 " Define dictionary.
 let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
-        \ }
+      \ 'default' : '',
+      \ 'vimshell' : $HOME.'/.vimshell_hist',
+      \ 'scheme' : $HOME.'/.gosh_completions'
+      \ }
 
 " Define keyword.
 if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
+  let g:neocomplete#keyword_patterns = {}
 endif
 let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
@@ -216,8 +239,8 @@ let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 "let g:rsenseHome = $HOME. '/.rbenv/shims'
 
 "switch.vim""""""""""""""
-  nnoremap ! :Switch<CR>
-    let s:switch_definition  =  {
+nnoremap ! :Switch<CR>
+let s:switch_definition  =  {
       \ '*': [
       \   ['is', 'are']
       \ ],
@@ -318,18 +341,27 @@ let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 
 
 
+" 行が折り返し表示されていた場合、行単位ではなく表示行単位でカーソルを移動する
+nnoremap j gj
+nnoremap k gk
+nnoremap <down> gj
+nnoremap <up> gk
+
+set wildmenu " コマンドモードの補完"
 
 "let mapleader = "\<Space>" "Leaderをスペースキーにする
 "nnoremap <Leader>w :w<CR>
 nnoremap ww <C-w>w
-nnoremap sp :sp<CR>
-nnoremap sc <C-w>c
+nnoremap ws :sp<CR>
+nnoremap wc <C-w>c
 nnoremap tn :tabnew<CR>
 
 
 
-
-set laststatus=2
+set laststatus=2 " ステータスラインを常に表示
+set showmode " 現在のモードを表示
+set showcmd " 打ったコマンドをステータスラインの下に表示
+set ruler " ステータスラインの右側にカーソルの現在位置を表示する
 set t_Co=256
 
 "バックアップファイルを作成しない
@@ -395,8 +427,13 @@ set whichwrap=b,s,h,l,<,>,[,]
 
 " 最後のカーソル位置を復元する
 if has("autocmd")
-    autocmd BufReadPost *
-    \ if line("'\"") > 0 && line ("'\"") <= line("$") |
-    \   exe "normal! g'\"" |
-    \ endif
+  autocmd BufReadPost *
+        \ if line("'\"") > 0 && line ("'\"") <= line("$") |
+        \   exe "normal! g'\"" |
+        \ endif
+endif
+" 引数なしでvimを開くとNERDTreeを起動
+let file_name  =  expand('%')
+if has('vim_starting') &&  file_name == ''
+  autocmd VimEnter * NERDTree ./
 endif
