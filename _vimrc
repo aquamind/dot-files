@@ -46,8 +46,9 @@ if has('conceal')
   set conceallevel=2 concealcursor=niv
 endif
 
-"call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
-"call dein#add('Shougo/vimshell.vim')
+call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
+call dein#add('Shougo/vimshell.vim')
+call dein#add('Shougo/vimfiler.vim')
 call dein#add('Shougo/neocomplete.vim')
 let g:neocomplcache_enable_at_startup = 1
 call dein#add('Shougo/neocomplcache-rsense.vim')
@@ -65,6 +66,10 @@ let g:syntastic_mode_map  =  { 'mode': 'passive',
 let g:syntastic_ruby_checkers  =  ['rubocop']
 " カスタムステータスライン
 call dein#add('itchyny/lightline.vim')
+" git 連携
+call dein#add('tpope/vim-fugitive')
+" タグ表示
+call dein#add('majutsushi/tagbar')
 " シンタックス
 call dein#add('othree/html5.vim')
 call dein#add('hail2u/vim-css3-syntax')
@@ -338,8 +343,68 @@ let s:switch_definition  =  {
       \ ]
       \ }
 """""""""""""""""""""""""""
+""""""lightline設定""""""""
+let g:lightline = {
+        \ 'colorscheme': 'wombat',
+        \ 'mode_map': {'c': 'NORMAL'},
+        \ 'active': {
+        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ]
+        \ },
+        \ 'component_function': {
+        \   'modified': 'LightlineModified',
+        \   'readonly': 'LightlineReadonly',
+        \   'fugitive': 'LightlineFugitive',
+        \   'filename': 'LightlineFilename',
+        \   'fileformat': 'LightlineFileformat',
+        \   'filetype': 'LightlineFiletype',
+        \   'fileencoding': 'LightlineFileencoding',
+        \   'mode': 'LightlineMode'
+        \ }
+        \ }
+
+function! LightlineModified()
+  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+endfunction
+
+function! LightlineReadonly()
+  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? 'x' : ''
+endfunction
+
+function! LightlineFilename()
+  return ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+        \  &ft == 'unite' ? unite#get_status_string() :
+        \  &ft == 'vimshell' ? vimshell#get_status_string() :
+        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+        \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+endfunction
+
+function! LightlineFugitive()
+  if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
+    return fugitive#head()
+  else
+    return ''
+  endif
+endfunction
+
+function! LightlineFileformat()
+  return winwidth(0) > 70 ? &fileformat : ''
+endfunction
+
+function! LightlineFiletype()
+  return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+endfunction
+
+function! LightlineFileencoding()
+  return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
+endfunction
+
+function! LightlineMode()
+  return winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
 
 
+""""""lightline設定ここまで""""""""
 
 " 行が折り返し表示されていた場合、行単位ではなく表示行単位でカーソルを移動する
 nnoremap j gj
@@ -432,7 +497,7 @@ if has("autocmd")
         \   exe "normal! g'\"" |
         \ endif
 endif
-" 引数なしでvimを開くとNERDTreeを起動
+"引数なしでvimを開くとNERDTreeを起動
 let file_name  =  expand('%')
 if has('vim_starting') &&  file_name == ''
   autocmd VimEnter * NERDTree ./
