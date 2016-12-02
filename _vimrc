@@ -50,10 +50,10 @@ call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
 call dein#add('Shougo/vimshell.vim')
 call dein#add('Shougo/vimfiler.vim')
 call dein#add('Shougo/neocomplete.vim')
-let g:neocomplcache_enable_at_startup = 1
-call dein#add('Shougo/neocomplcache-rsense.vim')
+" call dein#add('Shougo/neocomplcache.vim')
+" let g:neocomplcache_enable_at_startup = 1
+" call dein#add('Shougo/neocomplcache-rsense.vim')
 call dein#add('Shougo/unite.vim')
-nnoremap ub :Unite file buffer<CR>
 call dein#add('scrooloose/nerdtree')
 nnoremap <silent><C-\> :NERDTreeToggle<CR>
 let g:NERDTreeDirArrows = 1
@@ -80,6 +80,13 @@ autocmd FileType javascript
       \ :setl omnifunc=jscomplete#CompleteJS
 " HTML CSS 入力を簡略化
 call dein#add('mattn/emmet-vim')
+let g:user_emmet_expandabbr_key = '<c-e>'
+let g:user_emmet_settings = {
+      \'variables':{
+      \  'lang' : "ja"
+      \}}
+" HAML
+call dein#add('tpope/vim-haml')
 " sass自動コンパイル
 call dein#add('AtsushiM/search-parent.vim')
 call dein#add('AtsushiM/sass-compile.vim')
@@ -89,19 +96,17 @@ call dein#add('open-browser.vim')
 call dein#add('mattn/webapi-vim')
 " ブラウザ自動リロード Macのみ
 call dein#add('tell-k/vim-browsereload-mac')
-" =にスペースを追加
-call dein#add('kana/vim-smartchr')
-inoremap <expr> = smartchr#loop(' = ', ' == ', ' === ', '=')
 " HTML閉じタグ移動
 call dein#add('tmhedberg/matchit')
 " 閉じ括弧入力
 call dein#add('kana/vim-smartinput')
 " コメントアウト
 call dein#add('tyru/caw.vim')
-nmap <C-k> <Plug>(caw:hatpos:toggle)
-vmap <C-k> <Plug>(caw:hatpos:toggle)
-
-"範囲拡大
+nmap <Leader> k <Plug>(caw:hatpos:toggle)
+vmap <Leader> k <Plug>(caw:hatpos:toggle)
+"マルチカーソル
+call dein#add('terryma/vim-multiple-cursors')
+" 範囲拡大
 call dein#add('terryma/vim-expand-region')
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
@@ -238,10 +243,10 @@ let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
 "rsense""""""""""""""""""
 let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-"autocmd FileType ruby setlocal omnifunc = rubycomplete#Complete
-
-"let g:rsenseUseOmniFnc = 1
-"let g:rsenseHome = $HOME. '/.rbenv/shims'
+" autocmd FileType ruby setlocal omnifunc = rubycomplete#Complete
+"
+" let g:rsenseHome = expand($HOME.'/.anyenv/envs/rbenv/shims/rsence')
+" let g:rsenseUseOmniFnc = 1
 
 "switch.vim""""""""""""""
 nnoremap ! :Switch<CR>
@@ -412,15 +417,25 @@ nnoremap k gk
 nnoremap <down> gj
 nnoremap <up> gk
 
-set wildmenu " コマンドモードの補完"
+ " コマンドモードの補完"
+set wildmenu
+set wildmode=list,full
 
-"let mapleader = "\<Space>" "Leaderをスペースキーにする
-"nnoremap <Leader>w :w<CR>
+let mapleader = "\<Space>" "Leaderをスペースキーにする
+nnoremap <Leader>w :w<CR>
+nnoremap <Leader>q :q<CR>
+
+
 nnoremap ww <C-w>w
 nnoremap ws :sp<CR>
 nnoremap wc <C-w>c
-nnoremap tn :tabnew<CR>
+nnoremap nt :tabnew<CR>
 
+nnoremap <Leader>rc :source ~/.vimrc<CR>
+
+"Unite.vim shortcut
+nnoremap <Leader>ub :Unite file buffer<CR>
+nnoremap <Leader>ut :Unite tab<CR>
 
 
 set laststatus=2 " ステータスラインを常に表示
