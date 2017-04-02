@@ -102,8 +102,8 @@ call dein#add('tmhedberg/matchit')
 call dein#add('kana/vim-smartinput')
 " コメントアウト
 call dein#add('tyru/caw.vim')
-nmap <Leader> k <Plug>(caw:hatpos:toggle)
-vmap <Leader> k <Plug>(caw:hatpos:toggle)
+nmap <Leader>/ <Plug>(caw:hatpos:toggle)
+vmap <Leader>/ <Plug>(caw:hatpos:toggle)
 "マルチカーソル
 call dein#add('terryma/vim-multiple-cursors')
 " 範囲拡大
@@ -424,6 +424,7 @@ set wildmode=list,full
 let mapleader = "\<Space>" "Leaderをスペースキーにする
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>q :q<CR>
+nnoremap <Leader>wq :wq<CR>
 
 
 nnoremap ww <C-w>w
@@ -437,6 +438,11 @@ nnoremap <Leader>rc :source ~/.vimrc<CR>
 nnoremap <Leader>ub :Unite file buffer<CR>
 nnoremap <Leader>ut :Unite tab<CR>
 
+"入力モードでも移動できるようにする
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-h> <Left>
+inoremap <C-l> <Right>
 
 set laststatus=2 " ステータスラインを常に表示
 set showmode " 現在のモードを表示
